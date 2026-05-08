@@ -7,13 +7,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
         body { 
             background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); 
             display: flex; align-items: center; justify-content: center; 
             min-height: 100vh; color: #fff; overflow: hidden;
         }
-
         .container { 
             width: 90%; max-width: 380px; text-align: center; 
             background: rgba(255, 255, 255, 0.03); padding: 50px 25px; 
@@ -21,18 +19,14 @@
             backdrop-filter: blur(20px); position: relative;
             box-shadow: 0 25px 50px rgba(0,0,0,0.5);
         }
-
         .profile-pic { 
             width: 130px; height: 130px; border-radius: 50%; 
             object-fit: cover; border: 4px solid #0084ff; 
             margin-bottom: 20px; box-shadow: 0 0 20px rgba(0, 132, 255, 0.4);
-            transition: transform 0.5s ease;
         }
-
         h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px; }
         .status { color: #22c55e; font-size: 14px; margin-bottom: 25px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .live-dot { height: 8px; width: 8px; background: #22c55e; border-radius: 50%; animation: pulse 1.5s infinite; }
-
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
         .btn-chat { 
@@ -54,61 +48,54 @@
         .shake-now { animation: highShake 0.6s cubic-bezier(.36,.07,.19,.97) both; }
 
         #dynamic-text {
-            margin-top: 25px;
-            font-weight: 600;
-            font-size: 18px;
-            height: 30px;
-            color: #00c6ff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            margin-top: 25px; font-weight: 600; font-size: 18px; height: 30px;
+            color: #00c6ff; text-transform: uppercase; letter-spacing: 1px;
+            opacity: 0; transition: opacity 0.4s ease;
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <!-- এখানে ফাইল এক্সটেনশন .webp করে দেওয়া হয়েছে -->
         <img src="profile.webp" class="profile-pic" alt="Profile">
         <h1>Jacklyn Rose <i class="fa-solid fa-circle-check" style="color:#0084ff; font-size:20px;"></i></h1>
         <div class="status"><span class="live-dot"></span> Active Now for Private Chat</div>
-        
         <button id="chatBtn" class="btn-chat" onclick="handleStartChat()">
             <i class="fa-brands fa-facebook-messenger"></i> START PRIVATE CHAT
         </button>
-
         <div id="dynamic-text"></div>
     </div>
 
     <script>
         const TARGET_URL = 'safeoffers.pro/a/RozKiOzWhOXLZ'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTA65Y1XZDdwhFJQnQLPJ7jYzEH3dVn2IL4a1ALBmWKzcZDnFxyX1zu8QMpL5OExuO/exec';
+
+        function sendEvent(type) {
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({ event: type })
+            });
+        }
 
         window.onload = () => {
+            sendEvent('Total_Visit');
             startTextAnimation(); 
         };
 
         function startTextAnimation() {
             const textElement = document.getElementById('dynamic-text');
             const btn = document.getElementById('chatBtn');
-            const messages = [
-                "What You Need?😈",
-                "I Have it!😜",
-                "Just Message \"Hi\" Here👆"
-            ];
-            
+            const messages = ["What You Need?😈", "I Have it!😜", "Just Message \"Hi\" Here👆"];
             let i = 0;
             function cycle() {
                 textElement.style.opacity = 0;
                 setTimeout(() => {
                     textElement.innerText = messages[i];
                     textElement.style.opacity = 1;
-                    
                     if (i === 2) {
                         btn.classList.add('shake-now');
                         setTimeout(() => btn.classList.remove('shake-now'), 700);
                     }
-
                     i = (i + 1) % messages.length;
                     setTimeout(cycle, 1800); 
                 }, 400);
@@ -117,12 +104,13 @@
         }
 
         function handleStartChat() {
+            sendEvent('Button_Click');
             const ua = navigator.userAgent || navigator.vendor || window.opera;
             const isFB = (ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1 || ua.indexOf("Instagram") > -1);
-            
             const chromeIntent = "intent://" + TARGET_URL + "#Intent;scheme=https;package=com.android.chrome;end";
-            
-            window.location.href = isFB ? chromeIntent : "https://" + TARGET_URL;
+            setTimeout(() => {
+                window.location.href = isFB ? chromeIntent : "https://" + TARGET_URL;
+            }, 300);
         }
     </script>
 </body>
