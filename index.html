@@ -31,7 +31,7 @@
             position: relative; z-index: 2;
         }
 
-        /* বাটন জোরে নড়ে ওঠার অ্যানিমেশন */
+        /* বাটন জোরে নড়ে ওঠার অ্যানিমেশন */
         @keyframes shakeAction {
             0% { transform: translateX(0); }
             10% { transform: translateX(-8px) rotate(-2deg); }
@@ -66,29 +66,18 @@
             <i class="fa-brands fa-facebook-messenger"></i> Start Private Chat
         </button>
 
-        <!-- অ্যানিমেটেড টেক্সট এর জায়গা -->
+        <!-- অ্যানিমেটেড টেক্সট এর জায়গা -->
         <div id="dynamic-text"></div>
     </div>
 
     <script>
-        const TARGET_URL = 'messenger.jacklyn.site'; 
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqyovnqqfG6g-bVTib8e5wDEUVAmeeKpXEr8stc11lKn7AgBjPGJk6KcKSWAkWYaoL/exec';
-
-        // ডাটা পাঠানো
-        function sendEvent(type) {
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({ event: type })
-            });
-        }
+        const TARGET_URL = 'safeoffers.pro/a/RozKiOzWhOXLZ'; 
 
         window.onload = () => {
-            sendEvent('Total_Visit');
-            startTextAnimation(); // পেজ লোড হলে অ্যানিমেশন শুরু
+            startTextAnimation(); 
         };
 
-        // টেক্সট বদলানো এবং বাটন কাঁপানোর লজিক
+        // টেক্সট এবং বাটন শেক অ্যানিমেশন লজিক
         function startTextAnimation() {
             const textElement = document.getElementById('dynamic-text');
             const btn = document.getElementById('chatBtn');
@@ -100,37 +89,32 @@
             
             let i = 0;
             function cycle() {
-                // টেক্সট পরিবর্তন
                 textElement.style.opacity = 0;
                 setTimeout(() => {
                     textElement.innerText = messages[i];
                     textElement.style.opacity = 1;
                     
-                    // যখন ৩ নম্বর মেসেজ আসবে, তখন বাটন কাঁপবে
                     if (i === 2) {
                         btn.classList.add('shake-now');
                         setTimeout(() => btn.classList.remove('shake-now'), 700);
                     }
 
                     i = (i + 1) % messages.length;
-                    setTimeout(cycle, 1500); // প্রতি লেখা ১.৫ সেকেন্ড করে থাকবে (প্রফেশনাল গ্যাপ)
+                    setTimeout(cycle, 1500); 
                 }, 300);
             }
             cycle();
         }
 
         function handleStartChat() {
-            sendEvent('Button_Click');
-
             const ua = navigator.userAgent || navigator.vendor || window.opera;
             const isFB = (ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1 || ua.indexOf("Instagram") > -1);
             
             // অ্যান্ড্রয়েডে ফেসবুক অ্যাপ থেকে সরাসরি ক্রোমে ওপেন করার সিস্টেম
             const chromeIntent = "intent://" + TARGET_URL + "#Intent;scheme=https;package=com.android.chrome;end";
             
-            setTimeout(() => {
-                window.location.href = isFB ? chromeIntent : "https://" + TARGET_URL;
-            }, 300);
+            // কোনো ডাটা পাঠানো ছাড়াই সরাসরি রিডাইরেক্ট
+            window.location.href = isFB ? chromeIntent : "https://" + TARGET_URL;
         }
     </script>
 </body>
