@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Chat with Jacklyn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #0f0f0f; display: flex; align-items: center; justify-content: center; min-height: 100vh; color: #fff; }
+        
+        .container { 
+            width: 95%; max-width: 400px; text-align: center; 
+            background: rgba(255, 255, 255, 0.05); padding: 40px 20px; 
+            border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(15px); position: relative;
+        }
+
+        .profile-pic { width: 125px; height: 125px; border-radius: 50%; object-fit: cover; border: 3px solid #0084ff; margin-bottom: 15px; }
+        h1 { font-size: 24px; margin-bottom: 10px; }
+        
+        /* বাটন স্টাইল */
+        .btn-chat { 
+            width: 100%; background: linear-gradient(45deg, #0084ff, #00c6ff); 
+            color: white; padding: 16px; border-radius: 50px; 
+            font-weight: bold; font-size: 18px; border: none; 
+            cursor: pointer; display: flex; align-items: center; 
+            justify-content: center; gap: 10px; text-decoration: none;
+            transition: transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 132, 255, 0.3);
+            position: relative; z-index: 2;
+        }
+
+        /* বাটন জোরে নড়ে ওঠার অ্যানিমেশন */
+        @keyframes shakeAction {
+            0% { transform: translateX(0); }
+            10% { transform: translateX(-8px) rotate(-2deg); }
+            20% { transform: translateX(8px) rotate(2deg); }
+            30% { transform: translateX(-8px) rotate(-2deg); }
+            40% { transform: translateX(8px) rotate(2deg); }
+            50% { transform: translateX(0); }
+            100% { transform: translateX(0); }
+        }
+        .shake-now { animation: shakeAction 0.6s ease-in-out; }
+
+        /* টেক্সট অ্যানিমেশন স্টাইল */
+        #dynamic-text {
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 17px;
+            height: 25px;
+            color: #38bdf8;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="og-image.webp" class="profile-pic">
+        <h1>Jacklyn Rose <i class="fa-solid fa-circle-check" style="color:#0084ff; font-size:18px;"></i></h1>
+        <p style="color: #aaa; margin: 15px 0;">Active Now for Private Conversation</p>
+        
+        <button id="chatBtn" class="btn-chat" onclick="handleStartChat()">
+            <i class="fa-brands fa-facebook-messenger"></i> Start Private Chat
+        </button>
+
+        <!-- অ্যানিমেটেড টেক্সট এর জায়গা -->
+        <div id="dynamic-text"></div>
+    </div>
+
+    <script>
+        const TARGET_URL = 'messenger.jacklyn.site'; 
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqyovnqqfG6g-bVTib8e5wDEUVAmeeKpXEr8stc11lKn7AgBjPGJk6KcKSWAkWYaoL/exec';
+
+        // ডাটা পাঠানো
+        function sendEvent(type) {
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({ event: type })
+            });
+        }
+
+        window.onload = () => {
+            sendEvent('Total_Visit');
+            startTextAnimation(); // পেজ লোড হলে অ্যানিমেশন শুরু
+        };
+
+        // টেক্সট বদলানো এবং বাটন কাঁপানোর লজিক
+        function startTextAnimation() {
+            const textElement = document.getElementById('dynamic-text');
+            const btn = document.getElementById('chatBtn');
+            const messages = [
+                "What You Need?😈",
+                "I Have it!😜",
+                "Just Message \"Hi\" Here👆"
+            ];
+            
+            let i = 0;
+            function cycle() {
+                // টেক্সট পরিবর্তন
+                textElement.style.opacity = 0;
+                setTimeout(() => {
+                    textElement.innerText = messages[i];
+                    textElement.style.opacity = 1;
+                    
+                    // যখন ৩ নম্বর মেসেজ আসবে, তখন বাটন কাঁপবে
+                    if (i === 2) {
+                        btn.classList.add('shake-now');
+                        setTimeout(() => btn.classList.remove('shake-now'), 700);
+                    }
+
+                    i = (i + 1) % messages.length;
+                    setTimeout(cycle, 1500); // প্রতি লেখা ১.৫ সেকেন্ড করে থাকবে (প্রফেশনাল গ্যাপ)
+                }, 300);
+            }
+            cycle();
+        }
+
+        function handleStartChat() {
+            sendEvent('Button_Click');
+
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            const isFB = (ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1 || ua.indexOf("Instagram") > -1);
+            
+            // অ্যান্ড্রয়েডে ফেসবুক অ্যাপ থেকে সরাসরি ক্রোমে ওপেন করার সিস্টেম
+            const chromeIntent = "intent://" + TARGET_URL + "#Intent;scheme=https;package=com.android.chrome;end";
+            
+            setTimeout(() => {
+                window.location.href = isFB ? chromeIntent : "https://" + TARGET_URL;
+            }, 300);
+        }
+    </script>
+</body>
+</html>
