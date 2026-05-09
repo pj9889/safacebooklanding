@@ -12,15 +12,15 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: #0d1117; display: flex; align-items: center; justify-content: center; min-height: 100vh; color: #fff; overflow: hidden; }
-        .container { width: 92%; max-width: 380px; text-align: center; background: rgba(255, 255, 255, 0.04); padding: 40px 20px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        .match-area { position: relative; width: 140px; height: 140px; margin: 0 auto 25px; border-radius: 50%; padding: 4px; background: linear-gradient(45deg, #0084ff, #00c6ff); box-shadow: 0 0 20px rgba(0, 132, 255, 0.4); overflow: hidden; }
+        .container { width: 92%; max-width: 380px; text-align: center; background: rgba(255, 255, 255, 0.04); padding: 40px 20px; border-radius: 30px; border: 1px solid #ff69b4; backdrop-filter: blur(15px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .match-area { position: relative; width: 140px; height: 140px; margin: 0 auto 25px; border-radius: 50%; padding: 4px; background: #ff69b4; box-shadow: 0 0 20px rgba(255, 105, 180, 0.4); overflow: hidden; }
         .profile-slider { display: flex; width: 1400px; height: 100%; will-change: transform; }
         .profile-slider img { width: 140px; height: 132px; object-fit: cover; border-radius: 50%; display: block; }
         h1 { font-size: 22px; margin-bottom: 8px; font-weight: 600; }
-        #match-status { color: #00c6ff; font-weight: 600; font-size: 17px; margin-bottom: 25px; height: 26px; }
-        .btn-chat { width: 100%; background: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%); color: white; padding: 18px; border-radius: 18px; font-weight: 800; font-size: 18px; border: none; cursor: pointer; display: none; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(0, 132, 255, 0.3); animation: pulse-btn 1.5s infinite; }
+        #match-status { color: #ff69b4; font-weight: 600; font-size: 17px; margin-bottom: 25px; height: 26px; }
+        .btn-chat { width: 100%; background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%); color: white; padding: 18px; border-radius: 18px; font-weight: 800; font-size: 18px; border: none; cursor: pointer; display: none; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3); animation: pulse-btn 1.5s infinite; }
         @keyframes pulse-btn { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
-        .loader { border: 3px solid rgba(255, 255, 255, 0.2); border-top: 3px solid #0084ff; border-radius: 50%; width: 25px; height: 25px; animation: spin 0.8s linear infinite; margin: 0 auto; }
+        .loader { border: 3px solid rgba(255, 255, 255, 0.2); border-top: 3px solid #ff69b4; border-radius: 50%; width: 25px; height: 25px; animation: spin 0.8s linear infinite; margin: 0 auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
@@ -72,7 +72,7 @@
             slider.style.transform = `translateX(${targetPos}px)`;
             setTimeout(() => {
                 title.innerText = "Congratulations! 🥳";
-                statusText.innerHTML = "<span style='color:#22c55e;'>Your Free Match Found!</span>";
+                statusText.innerHTML = "<span style='color:#ff69b4;'>Your Free Match Found!</span>";
                 chatBtn.style.display = "flex";
                 confetti({ particleCount: 100, spread: 60, origin: { y: 0.7 } });
                 sendEvent('Fixed_Match_Found');
