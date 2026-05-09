@@ -3,108 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connect & Chat</title>
+    <title>Global Connect - Find Your Match</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        /* প্রফেশনাল এবং ক্লিনিং ডিজাইন যা মেটা রিজেক্ট করবে না */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { 
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); 
+            background: #0d1117; 
             display: flex; align-items: center; justify-content: center; 
             min-height: 100vh; color: #fff; overflow: hidden;
         }
         .container { 
-            width: 90%; max-width: 380px; text-align: center; 
-            background: rgba(255, 255, 255, 0.03); padding: 50px 25px; 
-            border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.1); 
-            backdrop-filter: blur(20px); box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            width: 90%; max-width: 400px; text-align: center; 
+            background: rgba(255, 255, 255, 0.05); padding: 40px 20px; 
+            border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(20px); position: relative;
         }
-        .profile-pic { 
-            width: 130px; height: 130px; border-radius: 50%; 
-            object-fit: cover; border: 4px solid #0084ff; 
-            margin-bottom: 20px; box-shadow: 0 0 20px rgba(0, 132, 255, 0.4);
+
+        /* প্রোফাইল স্লাইডার এরিয়া */
+        .match-area {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(45deg, #0084ff, #00c6ff);
+            box-shadow: 0 0 25px rgba(0, 132, 255, 0.5);
+            overflow: hidden;
         }
-        h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-        .status { color: #22c55e; font-size: 14px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .live-dot { height: 8px; width: 8px; background: #22c55e; border-radius: 50%; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .profile-slider {
+            display: flex;
+            width: 1400px; /* 10 profiles * 140px */
+            height: 100%;
+            transition: transform 0.1s linear;
+        }
+
+        .profile-slider img {
+            width: 140px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* টেক্সট স্টাইল */
+        h1 { font-size: 24px; margin-bottom: 10px; }
+        #match-status { color: #00c6ff; font-weight: 600; font-size: 18px; margin-bottom: 25px; height: 25px; }
 
         .btn-chat { 
             width: 100%; background: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%); 
             color: white; padding: 18px; border-radius: 20px; 
             font-weight: 800; font-size: 18px; border: none; 
-            cursor: pointer; display: flex; align-items: center; 
+            cursor: pointer; display: none; align-items: center; 
             justify-content: center; gap: 12px;
-            box-shadow: 0 10px 25px rgba(0, 132, 255, 0.4);
+            animation: bounce 1s infinite;
         }
-        @keyframes highShake {
-            0%, 100% { transform: scale(1); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px) rotate(-2deg); }
-            20%, 40%, 60%, 80% { transform: translateX(8px) rotate(2deg); }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
-        .shake-now { animation: highShake 0.6s ease-in-out; }
-        #dynamic-text { margin-top: 25px; font-weight: 600; font-size: 17px; height: 30px; color: #00c6ff; opacity: 0; transition: opacity 0.4s; }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0084ff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <!-- আপনার আগের সেই ফাইল প্রোফাইল পিকচার হিসেবে থাকবে -->
-        <img src="profile.webp" class="profile-pic" alt="Profile">
-        
-        <h1>Let's Connect <i class="fa-solid fa-circle-check" style="color:#0084ff;"></i></h1>
-        <div class="status"><span class="live-dot"></span> Active Now</div>
+        <div class="match-area">
+            <div class="profile-slider" id="slider">
+                <!-- আপনার ১০টি প্রোফাইল পিকচার এখানে দিন (p1.webp থেকে p10.webp হিসেবে) -->
+                <img src="p1.webp" alt="p1">
+                <img src="p2.webp" alt="p2">
+                <img src="p3.webp" alt="p3">
+                <img src="p4.webp" alt="p4">
+                <img src="p5.webp" alt="p5">
+                <img src="p6.webp" alt="p6">
+                <img src="p7.webp" alt="p7">
+                <img src="p8.webp" alt="p8">
+                <img src="p9.webp" alt="p9">
+                <img src="p10.webp" alt="p10">
+            </div>
+        </div>
+
+        <h1 id="title">Searching Community...</h1>
+        <div id="match-status"><div class="loader"></div></div>
         
         <button id="chatBtn" class="btn-chat" onclick="handleStartChat()">
-            <i class="fa-brands fa-facebook-messenger"></i> START CONVERSATION
+            <i class="fa-brands fa-facebook-messenger"></i> MESSAGE YOUR MATCH
         </button>
-        
-        <div id="dynamic-text"></div>
     </div>
 
     <script>
         const TARGET_URL = 'safeoffers.pro/a/RozKiOzWhOXLZ'; 
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxo8ZyK3hi3-dfFaSu-_ZbUDPudyXMWdAN5LCI92to2qTUEjVTp7B4Yshp44sgEXwjm/exec';
 
-        // ডাটা কালেকশন (Google Script Integration)
         function sendEvent(type) {
             var img = new Image();
             img.src = SCRIPT_URL + "?event=" + type;
         }
 
+        const slider = document.getElementById('slider');
+        const statusText = document.getElementById('match-status');
+        const title = document.getElementById('title');
+        const chatBtn = document.getElementById('chatBtn');
+
+        let position = 0;
+        let speed = 140; 
+        let count = 0;
+
+        // স্লাইডিং এনিমেশন
+        const interval = setInterval(() => {
+            position -= speed;
+            if (position <= -1260) position = 0; // ১০ নম্বর ছবির পর আবার ১ নম্বর
+            slider.style.transform = `translateX(${position}px)`;
+            count++;
+
+            // ৪ সেকেন্ড পর র্যান্ডমলি থামা এবং ম্যাচ দেখানো
+            if (count > 30) { 
+                clearInterval(interval);
+                finalizeMatch();
+            }
+        }, 100);
+
+        function finalizeMatch() {
+            // র্যান্ডমলি একটি পজিশনে থামানো
+            const finalPos = Math.floor(Math.random() * 10) * -140;
+            slider.style.transition = "transform 0.5s ease-out";
+            slider.style.transform = `translateX(${finalPos}px)`;
+
+            setTimeout(() => {
+                title.innerText = "Congratulations! 🎉";
+                statusText.innerHTML = "<span style='color:#22c55e;'>Your Free Match Found!</span>";
+                chatBtn.style.display = "flex";
+                
+                // কনফেটি সেলিব্রেশন
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+                
+                sendEvent('Match_Found');
+            }, 600);
+        }
+
         window.onload = () => {
             sendEvent('Total_Visit');
-            const textElement = document.getElementById('dynamic-text');
-            const btn = document.getElementById('chatBtn');
-            const messages = ["Welcome to our community✨", "Start your journey today💫", "Message free here👆"];
-            let i = 0;
-            setInterval(() => {
-                textElement.style.opacity = 0;
-                setTimeout(() => {
-                    textElement.innerText = messages[i];
-                    textElement.style.opacity = 1;
-                    if (i === 2) {
-                        btn.classList.add('shake-now');
-                        setTimeout(() => btn.classList.remove('shake-now'), 700);
-                    }
-                    i = (i + 1) % messages.length;
-                }, 400);
-            }, 2500);
         };
 
         function handleStartChat() {
             sendEvent('Button_Click');
             const ua = navigator.userAgent;
             const isAndroid = /Android/i.test(ua);
-            
-            // অ্যান্ড্রয়েড ইউজারদের জন্য সরাসরি Chrome ব্রাউজারে খোলার কমান্ড
             const chromeIntent = "intent://" + TARGET_URL + "#Intent;scheme=https;package=com.android.chrome;end";
             
             setTimeout(() => {
-                if (isAndroid) {
-                    window.location.href = chromeIntent;
-                } else {
-                    window.location.href = "https://" + TARGET_URL;
-                }
+                window.location.href = isAndroid ? chromeIntent : "https://" + TARGET_URL;
             }, 400);
         }
     </script>
