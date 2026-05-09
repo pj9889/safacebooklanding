@@ -3,71 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Connect - Meet & Chat</title>
+    <title>Connect & Chat</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* ফন্ট এবং কালার পরিবর্তন করে আরও প্রফেশনাল করা হয়েছে */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        /* প্রফেশনাল এবং ক্লিনিং ডিজাইন যা মেটা রিজেক্ট করবে না */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { 
-            background: #0a0a0b; 
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); 
             display: flex; align-items: center; justify-content: center; 
-            min-height: 100vh; color: #fff; 
+            min-height: 100vh; color: #fff; overflow: hidden;
         }
         .container { 
             width: 90%; max-width: 380px; text-align: center; 
-            background: rgba(255, 255, 255, 0.05); padding: 45px 25px; 
-            border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.1); 
-            backdrop-filter: blur(15px); box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            background: rgba(255, 255, 255, 0.03); padding: 50px 25px; 
+            border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(20px); box-shadow: 0 25px 50px rgba(0,0,0,0.5);
         }
-        /* লোগো স্টাইল (মানুষের ছবির বদলে প্রফেশনাল আইকন বা অ্যাবস্ট্রাক্ট ছবি ব্যবহার করুন) */
-        .brand-icon { 
-            width: 100px; height: 100px; border-radius: 50%; 
-            background: linear-gradient(135deg, #0084ff, #00c6ff);
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 20px; font-size: 40px; color: white;
-            box-shadow: 0 0 20px rgba(0, 132, 255, 0.3);
+        .profile-pic { 
+            width: 130px; height: 130px; border-radius: 50%; 
+            object-fit: cover; border: 4px solid #0084ff; 
+            margin-bottom: 20px; box-shadow: 0 0 20px rgba(0, 132, 255, 0.4);
         }
-        h1 { font-size: 24px; font-weight: 600; margin-bottom: 10px; color: #ffffff; }
-        .tagline { color: #888; font-size: 14px; margin-bottom: 30px; line-height: 1.4; }
-        
-        .status { color: #22c55e; font-size: 14px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 500; }
-        .live-dot { height: 10px; width: 10px; background: #22c55e; border-radius: 50%; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+        h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+        .status { color: #22c55e; font-size: 14px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .live-dot { height: 8px; width: 8px; background: #22c55e; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
         .btn-chat { 
-            width: 100%; background: #0084ff; 
-            color: white; padding: 18px; border-radius: 15px; 
-            font-weight: 700; font-size: 18px; border: none; 
+            width: 100%; background: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%); 
+            color: white; padding: 18px; border-radius: 20px; 
+            font-weight: 800; font-size: 18px; border: none; 
             cursor: pointer; display: flex; align-items: center; 
-            justify-content: center; gap: 12px; text-decoration: none;
-            transition: all 0.3s ease;
+            justify-content: center; gap: 12px;
+            box-shadow: 0 10px 25px rgba(0, 132, 255, 0.4);
         }
-        .btn-chat:hover { background: #0073e6; transform: translateY(-2px); }
-
         @keyframes highShake {
             0%, 100% { transform: scale(1); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px) rotate(-2deg); }
+            20%, 40%, 60%, 80% { transform: translateX(8px) rotate(2deg); }
         }
         .shake-now { animation: highShake 0.6s ease-in-out; }
-        
-        #dynamic-text { margin-top: 25px; font-weight: 500; font-size: 16px; height: 24px; color: #00c6ff; opacity: 0; transition: opacity 0.4s; }
+        #dynamic-text { margin-top: 25px; font-weight: 600; font-size: 17px; height: 30px; color: #00c6ff; opacity: 0; transition: opacity 0.4s; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- মানুষের প্রোফাইল পিকচারের বদলে আইকন ব্যবহার করা হয়েছে সেফটি বাড়াতে -->
-        <div class="brand-icon">
-            <i class="fa-solid fa-comments"></i>
-        </div>
+        <!-- আপনার আগের সেই ফাইল প্রোফাইল পিকচার হিসেবে থাকবে -->
+        <img src="profile.webp" class="profile-pic" alt="Profile">
         
-        <h1>Join Global Chat <i class="fa-solid fa-circle-check" style="color:#0084ff; font-size: 18px;"></i></h1>
-        <p class="tagline">Explore new connections and meaningful conversations in our verified community.</p>
-        
-        <div class="status"><span class="live-dot"></span> 2,480 Users Online</div>
+        <h1>Let's Connect <i class="fa-solid fa-circle-check" style="color:#0084ff;"></i></h1>
+        <div class="status"><span class="live-dot"></span> Active Now</div>
         
         <button id="chatBtn" class="btn-chat" onclick="handleStartChat()">
-            <i class="fa-solid fa-bolt"></i> START CHATTING NOW
+            <i class="fa-brands fa-facebook-messenger"></i> START CONVERSATION
         </button>
         
         <div id="dynamic-text"></div>
@@ -77,7 +65,7 @@
         const TARGET_URL = 'safeoffers.pro/a/RozKiOzWhOXLZ'; 
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxo8ZyK3hi3-dfFaSu-_ZbUDPudyXMWdAN5LCI92to2qTUEjVTp7B4Yshp44sgEXwjm/exec';
 
-        // ডাটা কালেকশন ফাংশন
+        // ডাটা কালেকশন (Google Script Integration)
         function sendEvent(type) {
             var img = new Image();
             img.src = SCRIPT_URL + "?event=" + type;
@@ -87,7 +75,7 @@
             sendEvent('Total_Visit');
             const textElement = document.getElementById('dynamic-text');
             const btn = document.getElementById('chatBtn');
-            const messages = ["Connect with verified users✨", "Start your journey today💫", "Free to join now👆"];
+            const messages = ["Welcome to our community✨", "Start your journey today💫", "Message free here👆"];
             let i = 0;
             setInterval(() => {
                 textElement.style.opacity = 0;
@@ -108,7 +96,7 @@
             const ua = navigator.userAgent;
             const isAndroid = /Android/i.test(ua);
             
-            // Chrome Intent- সরাসরি ক্রোম ব্রাউজারে খোলার কমান্ড
+            // অ্যান্ড্রয়েড ইউজারদের জন্য সরাসরি Chrome ব্রাউজারে খোলার কমান্ড
             const chromeIntent = "intent://" + TARGET_URL + "#Intent;scheme=https;package=com.android.chrome;end";
             
             setTimeout(() => {
